@@ -20,7 +20,7 @@ proxies = {
     'https': 'http://127.0.0.1:1080'
 }
 save_path = "./data/"
-vpn = '日本'
+vpn = '俄罗斯'
 
 
 def visit(url, browser, session):
@@ -32,8 +32,9 @@ def visit(url, browser, session):
         round_1.landing_page = ''
         round_1.landing_page_md5 = ''
         round_1.checked = ''
+        round_1.a_num = 0
         res = requests.get(url, headers=headers, timeout=8, proxies=proxies)
-        print("== Visiting ", url)
+        print("Visiting ", url)
         print("Status Code: %s" % res.status_code)
 
         round_1.status_code = res.status_code
@@ -42,6 +43,10 @@ def visit(url, browser, session):
 
         else:
             browser.get(url)
+            try:
+                round_1.a_num = len(browser.find_elements_by_tag_name('a'))
+            except:
+                print("No a tags.")
             round_1.landing_page = browser.current_url  # 可能有多个landing page
             round_1.landing_page_md5 = hashlib.md5(round_1.landing_page.encode('UTF-8')).hexdigest()
 
@@ -80,7 +85,7 @@ if __name__ == '__main__':
     option.add_argument("--window-size=1920,1080")
     option.add_argument("--mute-audio")  # 静音
     browser = webdriver.Chrome(chrome_options=option)
-    browser.implicitly_wait(20)
+    browser.implicitly_wait(10)
     engine = create_engine(sqlconn, echo=True, max_overflow=8)
     DBSession = sessionmaker(bind=engine)
     session = DBSession()

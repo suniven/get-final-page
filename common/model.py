@@ -15,6 +15,7 @@ class Round_1(Base):
     landing_page = Column(String(1200))
     status_code = Column(String(3))
     landing_page_md5 = Column(String(32))
+    a_num = Column(Integer)
     vpn = Column(String(20))
     checked = Column(String(50))
     create_time = Column(mysql.BIGINT)
@@ -31,6 +32,7 @@ class Final_Page(Base):
     domain = Column(String(50))
     vpn = Column(String(20))
     type = Column(String(100))
+    a_num = Column(Integer)
     create_time = Column(mysql.BIGINT)
 
 
@@ -43,6 +45,7 @@ class Round_2(Base):
     landing_page_1 = Column(String(1200))
     landing_page_2 = Column(String(1200))
     landing_page_md5 = Column(String(32))
+    a_num = Column(Integer)
     vpn = Column(String(20))
     checked = Column(String(50))
     create_time = Column(mysql.BIGINT)
@@ -58,6 +61,7 @@ class Round_3(Base):
     landing_page_2 = Column(String(1200))
     landing_page_3 = Column(String(1200))
     landing_page_md5 = Column(String(32))
+    a_num = Column(Integer)
     vpn = Column(String(20))
     checked = Column(String(50))
     create_time = Column(mysql.BIGINT)
