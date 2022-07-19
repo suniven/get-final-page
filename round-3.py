@@ -3,8 +3,8 @@ import os
 import time
 import requests
 import hashlib
-from model import Round_3_New
-from timestamp import datetime_timestamp, timestamp_datetime, get_now_timestamp
+from common.model import Round_3
+from common.timestamp import get_now_timestamp
 from selenium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
@@ -14,8 +14,8 @@ from sqlalchemy.sql import and_, asc, desc, or_
 from sqlalchemy import Column, String, create_engine, Integer, SmallInteger
 from sqlalchemy.orm import sessionmaker
 
-screenshots_save_path = './data/round-2/'  # 第三轮和第二轮存一起吧，无所谓
-sqlconn = 'mysql+pymysql://root:1101syw@localhost:3306/test?charset=utf8mb4'
+save_path = './data/'
+sqlconn = 'mysql+pymysql://root:1101syw@localhost:3306/landing_page?charset=utf8'
 headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'
 }
@@ -24,6 +24,7 @@ proxies = {
     'http': 'http://' + proxy,
     'https': 'http://' + proxy
 }
+vpn = '俄罗斯'
 
 
 def visit(url_in_comment, landing_page_1, landing_page_2, browser, session):
@@ -32,9 +33,11 @@ def visit(url_in_comment, landing_page_1, landing_page_2, browser, session):
         cur_domain = landing_page_2.split('/')[2]
         links = []
         browser.get(landing_page_2)
+        a_num = 0
         # 提取所有a标签
         try:
             a_tags = browser.find_elements_by_tag_name('a')
+            a_num = len(a_tags)
         except:
             return
         for a_tag in a_tags:
@@ -51,15 +54,17 @@ def visit(url_in_comment, landing_page_1, landing_page_2, browser, session):
             print("* ", browser.current_url)
             domain = browser.current_url.split('/')[2]
             if domain != cur_domain:
-                round_3_new = Round_3_New()
-                round_3_new.url = url_in_comment
-                round_3_new.landing_page_1 = landing_page_1
-                round_3_new.landing_page_2 = landing_page_2
-                round_3_new.landing_page_3 = browser.current_url
-                round_3_new.landing_page_md5 = hashlib.md5(round_3_new.landing_page_3.encode('UTF-8')).hexdigest()
-                round_3_new.checked = ''
+                round_3 = Round_3()
+                round_3.url = url_in_comment
+                round_3.landing_page_1 = landing_page_1
+                round_3.landing_page_2 = landing_page_2
+                round_3.landing_page_3 = browser.current_url
+                round_3.landing_page_md5 = hashlib.md5(round_3.landing_page_3.encode('UTF-8')).hexdigest()
+                round_3.checked = ''
+                round_3.vpn = vpn
+                round_3.a_num = a_num
                 try:
-                    save_name = screenshots_save_path + round_3_new.landing_page_md5 + '.png'
+                    save_name = save_path + round_3.landing_page_md5 + '.png'
                     if not os.path.exists(save_name):
                         browser.save_screenshot(save_name)
                         print("截图成功")
@@ -67,8 +72,8 @@ def visit(url_in_comment, landing_page_1, landing_page_2, browser, session):
                         print("截图已存在")
                 except BaseException as err_msg:
                     print("截图失败：%s" % err_msg)
-                round_3_new.create_time = get_now_timestamp()
-                session.add(round_3_new)
+                round_3.create_time = get_now_timestamp()
+                session.add(round_3)
                 session.commit()
     except Exception as e:
         print("* Error: ", e)
@@ -97,11 +102,11 @@ if __name__ == '__main__':
             url_in_comment = item.split('\t')[0]
             landing_page_1 = item.split('\t')[1]
             landing_page_2 = item.split('\t')[2]
-            rows = session.query(Round_3_New).filter(Round_3_New.url.like(url_in_comment),
-                                                     and_(Round_3_New.landing_page_1.like(landing_page_1)),
-                                                     and_(Round_3_New.landing_page_2.like(landing_page_2))).all()
+            rows = session.query(Round_3).filter(Round_3.url.like(url_in_comment),
+                                                 and_(Round_3.landing_page_1.like(landing_page_1)),
+                                                 and_(Round_3.landing_page_2.like(landing_page_2))).all()
             if rows:
-                print("*** Already Visited. ***")
+                print("* Already Visited. *")
                 continue
             visit(url_in_comment, landing_page_1, landing_page_2, browser, session)
             # break  # for test

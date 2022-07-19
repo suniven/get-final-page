@@ -3,7 +3,7 @@ import os
 import time
 import requests
 import hashlib
-from common.model import Round_1
+from common.model import Round_1, Round_2
 from common.timestamp import get_now_timestamp
 from selenium import webdriver
 from selenium.webdriver import ActionChains
@@ -40,10 +40,10 @@ if __name__ == '__main__':
     DBSession = sessionmaker(bind=engine)
     session = DBSession()
     try:
-        rows = session.query(Round_1).filter(Round_1.checked.like("revisit")).all()
+        rows = session.query(Round_2).filter(Round_2.checked.like("revisit")).all()
         if rows:
             for row in rows:
-                url = row.landing_page
+                url = row.landing_page_2
                 print('----------')
                 browser.get(url)
                 time.sleep(8)
@@ -54,7 +54,7 @@ if __name__ == '__main__':
                 id = row.id
                 landing_page = browser.current_url
                 landing_page_md5 = hashlib.md5(landing_page.encode('UTF-8')).hexdigest()
-                res = session.query(Round_1).filter(Round_1.id == id).update({"landing_page": landing_page,
+                res = session.query(Round_2).filter(Round_2.id == id).update({"landing_page_2": landing_page,
                                                                               "landing_page_md5": landing_page_md5,
                                                                               "checked": "final"},
                                                                              synchronize_session=False)

@@ -20,7 +20,7 @@ proxies = {
     'https': 'http://127.0.0.1:1080'
 }
 save_path = "./data/"
-vpn = '俄罗斯'
+vpn = '香港'
 
 
 def visit(url, browser, session):

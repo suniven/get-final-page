@@ -23,6 +23,7 @@ proxies = {
     'https': 'http://127.0.0.1:1080'
 }
 save_path = "./data/"
+vpn = "新加坡"
 
 
 def visit(url_in_comment, landing_page_1, browser, session):
@@ -91,7 +92,7 @@ if __name__ == '__main__':
     DBSession = sessionmaker(bind=engine)
     session = DBSession()
     try:
-        with open("url_for round_2.txt", "r", encoding="UTF8") as f:
+        with open("url_round_2.txt", "r", encoding="UTF8") as f:
             items = f.readlines()
         for item in items:
             item = item.strip()
