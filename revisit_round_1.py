@@ -40,10 +40,10 @@ if __name__ == '__main__':
     DBSession = sessionmaker(bind=engine)
     session = DBSession()
     try:
-        rows = session.query(Round_2).filter(Round_2.checked.like("revisit")).all()
+        rows = session.query(Round_1).filter(Round_1.checked.like("revisit")).all()
         if rows:
             for row in rows:
-                url = row.landing_page_2
+                url = row.landing_page
                 print('----------')
                 browser.get(url)
                 time.sleep(8)
@@ -52,10 +52,17 @@ if __name__ == '__main__':
                 if browser.current_url == url:
                     continue
                 id = row.id
+                a_num = 0
+                try:
+                    a_tags = browser.find_elements_by_tag_name('a')
+                    a_num = len(a_tags)
+                except:
+                    print("No a tag.")
                 landing_page = browser.current_url
                 landing_page_md5 = hashlib.md5(landing_page.encode('UTF-8')).hexdigest()
-                res = session.query(Round_2).filter(Round_2.id == id).update({"landing_page_2": landing_page,
+                res = session.query(Round_1).filter(Round_1.id == id).update({"landing_page": landing_page,
                                                                               "landing_page_md5": landing_page_md5,
+                                                                              "a_num": a_num,
                                                                               "checked": "final"},
                                                                              synchronize_session=False)
                 session.commit()

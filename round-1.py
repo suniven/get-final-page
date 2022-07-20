@@ -54,6 +54,7 @@ def visit(url, browser, session):
             query = "%" + domain + "%"
 
             rows = session.query(Round_1).filter(Round_1.landing_page.like(query),
+                                                 and_(Round_1.vpn.like(vpn)),
                                                  and_(Round_1.url.like(url))).all()
             if rows:
                 print("* Already Visited. *")
