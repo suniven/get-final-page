@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, create_engine, Integer, SmallInteger
+from sqlalchemy import Column, String, Integer, Text
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects import mysql
@@ -65,3 +65,43 @@ class Round_3(Base):
     vpn = Column(String(20))
     checked = Column(String(50))
     create_time = Column(mysql.BIGINT)
+
+
+class Html(Base):
+    # 表名
+    __tablename__ = 'html'
+
+    id = Column(mysql.BIGINT, primary_key=True)
+    url = Column(String(1200))
+    landing_page = Column(String(1200))
+    html = Column(Text)
+    vpn = Column(String(20))
+    create_time = Column(mysql.BIGINT)
+
+
+class HtmlMiddle(Base):
+    # 表名
+    __tablename__ = 'html_middle'
+
+    id = Column(mysql.BIGINT, primary_key=True)
+    url = Column(String(1200))
+    landing_page = Column(String(1200))
+    html = Column(Text)
+    vpn = Column(String(20))
+    create_time = Column(mysql.BIGINT)
+
+
+class Example(Base):
+    __tablename__ = 'example'
+
+    id = Column(mysql.BIGINT, primary_key=True)
+    url = Column(String(1200))
+    landing_page = Column(String(1200))
+    a_count = Column(Integer)
+    img_count = Column(Integer)
+    iframe_count = Column(Integer)
+    button_count = Column(Integer)
+    div_count = Column(Integer)
+    class_count = Column(Integer)
+    words_count = Column(Integer)
+    tag = Column(Integer)
