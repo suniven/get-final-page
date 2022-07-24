@@ -75,7 +75,6 @@ class Html(Base):
     url = Column(String(1200))
     landing_page = Column(String(1200))
     html = Column(Text)
-    vpn = Column(String(20))
     create_time = Column(mysql.BIGINT)
 
 
@@ -87,7 +86,6 @@ class HtmlMiddle(Base):
     url = Column(String(1200))
     landing_page = Column(String(1200))
     html = Column(Text)
-    vpn = Column(String(20))
     create_time = Column(mysql.BIGINT)
 
 

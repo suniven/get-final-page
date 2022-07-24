@@ -61,30 +61,18 @@ CREATE TABLE IF NOT EXISTS `final_page`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8 COMMENT ='final page';
 
+
 CREATE TABLE IF NOT EXISTS `html`
 (
     `id`           bigint(20) auto_increment NOT NULL COMMENT 'id',
     `url`          varchar(1200)             NOT NULL DEFAULT '' COMMENT 'url in comments',
     `landing_page` varchar(1200)             NOT NULL DEFAULT '' COMMENT 'landing page',
     `html`         mediumtext                NOT NULL COMMENT 'html',
-    `vpn`          varchar(20)               NOT NULL DEFAULT '' COMMENT 'vpn',
     `create_time`  bigint(20)                NOT NULL DEFAULT 0 COMMENT '数据创建时间',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8 COMMENT ='html';
 
-
-CREATE TABLE IF NOT EXISTS `features`
-(
-    `id`           bigint(20) auto_increment NOT NULL COMMENT 'id',
-    `url`          varchar(1200)             NOT NULL DEFAULT '' COMMENT 'url in comments',
-    `landing_page` varchar(1200)             NOT NULL DEFAULT '' COMMENT 'landing page',
-    `html`         mediumtext                NOT NULL DEFAULT '' COMMENT 'html',
-    `vpn`          varchar(20)               NOT NULL DEFAULT '' COMMENT 'vpn',
-    `create_time`  bigint(20)                NOT NULL DEFAULT 0 COMMENT '数据创建时间',
-    PRIMARY KEY (`id`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8 COMMENT ='html';
 
 ALTER TABLE html
     CHANGE html html mediumtext CHARACTER SET utf8mb4;
@@ -95,7 +83,6 @@ CREATE TABLE IF NOT EXISTS `html_middle`
     `url`          varchar(1200)             NOT NULL DEFAULT '' COMMENT 'url in comments',
     `landing_page` varchar(1200)             NOT NULL DEFAULT '' COMMENT 'landing page',
     `html`         mediumtext                NOT NULL COMMENT 'html',
-    `vpn`          varchar(20)               NOT NULL DEFAULT '' COMMENT 'vpn',
     `create_time`  bigint(20)                NOT NULL DEFAULT 0 COMMENT '数据创建时间',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
@@ -103,6 +90,7 @@ CREATE TABLE IF NOT EXISTS `html_middle`
 
 ALTER TABLE html_middle
     CHANGE html html mediumtext CHARACTER SET utf8mb4;
+
 CREATE TABLE IF NOT EXISTS `example`
 (
     `id`           bigint(20) auto_increment NOT NULL COMMENT 'id',

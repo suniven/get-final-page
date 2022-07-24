@@ -24,6 +24,12 @@ save_path = "./data/"
 vpn = '新加坡'
 
 if __name__ == '__main__':
+    option = webdriver.ChromeOptions()
+    option.add_argument('--headless')
+    option.add_argument("--window-size=1920,1080")
+    option.add_argument("--mute-audio")  # 静音
+    browser = webdriver.Chrome(chrome_options=option)
+    browser.implicitly_wait(15)
     engine = create_engine(sqlconn, echo=True, max_overflow=8)
     DBSession = sessionmaker(bind=engine)
     session = DBSession()
@@ -40,23 +46,23 @@ if __name__ == '__main__':
                 rows = session.query(Html).filter(Html.landing_page.like(landing_page)).all()
                 if rows:
                     continue
-                res = requests.get(landing_page, headers=headers, timeout=8, proxies=proxies)
-                print("Visiting ", landing_page)
-                print("Status Code: %s" % res.status_code)
-                if res.status_code != 200:
-                    print("响应失败")
-                else:
-                    html = Html()
-                    html.url = url
-                    html.landing_page = landing_page
-                    html.html = res.text
-                    html.vpn = vpn
-                    html.create_time = get_now_timestamp()
-                    session.add(html)
-                    session.commit()
+
+                browser.get(landing_page)
+                content = browser.page_source
+
+                html = Html()
+                html.url = url
+                html.landing_page = landing_page
+                html.html = content
+                html.vpn = vpn
+                html.create_time = get_now_timestamp()
+                session.add(html)
+                session.commit()
             except Exception as e:
                 print("request error: ", e)
     except Exception as e:
         print("Error: ", e)
     finally:
         session.close()
+        browser.close()
+        browser.quit()
