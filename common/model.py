@@ -102,4 +102,5 @@ class Example(Base):
     div_count = Column(Integer)
     class_count = Column(Integer)
     words_count = Column(Integer)
+    js_count = Column(Integer)
     tag = Column(Integer)

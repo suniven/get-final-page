@@ -1,6 +1,7 @@
 import os
 import requests
 import hashlib
+import time
 from common.model import Html
 from common.timestamp import get_now_timestamp
 from selenium import webdriver
@@ -24,12 +25,14 @@ save_path = "./data/"
 vpn = '新加坡'
 
 if __name__ == '__main__':
+    # browser = webdriver.Chrome()
+    # browser.maximize_window()
     option = webdriver.ChromeOptions()
     option.add_argument('--headless')
     option.add_argument("--window-size=1920,1080")
     option.add_argument("--mute-audio")  # 静音
     browser = webdriver.Chrome(chrome_options=option)
-    browser.implicitly_wait(15)
+    browser.implicitly_wait(30)
     engine = create_engine(sqlconn, echo=True, max_overflow=8)
     DBSession = sessionmaker(bind=engine)
     session = DBSession()

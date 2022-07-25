@@ -103,6 +103,7 @@ CREATE TABLE IF NOT EXISTS `example`
     `div_count`    int                       NOT NULL DEFAULT 0 COMMENT 'div数量',
     `class_count`  int                       NOT NULL DEFAULT 0 COMMENT 'class种类',
     `words_count`  int                       NOT NULL DEFAULT 0 COMMENT '网页字符数',
+    `js_count`     int                       NOT NULL DEFAULT 0 COMMENT 'js数量',
     `tag`          int                       NOT NULL DEFAULT 0 COMMENT '0-middle 1-final',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
