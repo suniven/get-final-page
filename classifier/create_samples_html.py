@@ -24,7 +24,7 @@ def extract_features(html, session, tag, url, landing_page):
         example.js_count = 0
         example.tag = tag
 
-        bs = BeautifulSoup(html, "lxml")
+        bs = BeautifulSoup(html, "html.parser")     # lxml对html格式限制比较严格，不适合用，因为爬取iframe的时候很草率
         example.a_count = len(bs.find_all("a"))
         example.img_count = len(bs.find_all("img"))
         example.button_count = len(bs.find_all("button"))
