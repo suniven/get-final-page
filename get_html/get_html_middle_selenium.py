@@ -22,7 +22,25 @@ proxies = {
     'https': 'http://127.0.0.1:1080'
 }
 save_path = "./data/"
-vpn = '日本'
+vpn = ''
+
+
+def get_iframe_content(browser):
+    iframe_content = ''
+    try:
+        iframes = browser.find_elements_by_tag_name('iframe')
+    except:
+        return iframe_content
+    # print(browser.page_source)
+    for iframe in iframes:
+        browser.switch_to.frame(iframe)
+        # print("------------------------")
+        iframe_content += browser.page_source
+        iframe_content += get_iframe_content(browser)
+        browser.switch_to.parent_frame()
+
+    return iframe_content
+
 
 if __name__ == '__main__':
     # browser = webdriver.Chrome()
@@ -32,7 +50,7 @@ if __name__ == '__main__':
     option.add_argument("--window-size=1920,1080")
     option.add_argument("--mute-audio")  # 静音
     browser = webdriver.Chrome(chrome_options=option)
-    browser.implicitly_wait(30)
+    browser.implicitly_wait(10)
     engine = create_engine(sqlconn, echo=True, max_overflow=8)
     DBSession = sessionmaker(bind=engine)
     session = DBSession()
@@ -52,6 +70,12 @@ if __name__ == '__main__':
 
                 browser.get(landing_page)
                 content = browser.page_source
+
+                # 寻找iframe中的内容
+                try:
+                    content += get_iframe_content(browser)
+                except Exception as err:
+                    print("Iframe Error: ", err)
 
                 html = HtmlMiddle()
                 html.url = url

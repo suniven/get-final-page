@@ -14,10 +14,16 @@ if __name__ == '__main__':
     option.add_argument("--mute-audio")  # 静音
     browser = webdriver.Chrome(chrome_options=option)
     browser.implicitly_wait(30)
-    url = 'https://shopee.co.id/winningstore?af_click_lookback=7d&af_reengagement_window=7d&af_siteid=an_11313850138&af_sub_siteid=product&af_viewthrough_lookback=1d&c=-&is_retargeting=true&pid=affiliates&smtt=0.435961385-1654966833.9&utm_campaign=-&utm_content=product&utm_medium=affiliates&utm_source=an_11313850138&utm_term=7pagpmdof1hh'
+    url = 'http://esto.es/defaultsite'
     browser.get(url)
 
-    count = len(re.sub(r"[\s\r\n\t]", "", browser.text))
+    iframes = browser.find_elements_by_tag_name('iframe')
+    print(browser.page_source)
+    for iframe in iframes:
+        browser.switch_to.frame(iframe)
+        print("------------------------")
+        print(browser.page_source)
+        browser.switch_to.parent_frame()
 
     browser.close()
     browser.quit()

@@ -22,7 +22,25 @@ proxies = {
     'https': 'http://127.0.0.1:1080'
 }
 save_path = "./data/"
-vpn = '新加坡'
+vpn = ''
+
+
+def get_iframe_content(browser):
+    iframe_content = ''
+    try:
+        iframes = browser.find_elements_by_tag_name('iframe')
+    except:
+        return iframe_content
+    # print(browser.page_source)
+    for iframe in iframes:
+        browser.switch_to.frame(iframe)
+        # print("------------------------")
+        iframe_content += browser.page_source
+        iframe_content += get_iframe_content(browser)
+        browser.switch_to.parent_frame()
+
+    return iframe_content
+
 
 if __name__ == '__main__':
     # browser = webdriver.Chrome()
@@ -53,11 +71,16 @@ if __name__ == '__main__':
                 browser.get(landing_page)
                 content = browser.page_source
 
+                # 寻找iframe中的内容
+                try:
+                    content += get_iframe_content(browser)
+                except Exception as err:
+                    print("Iframe Error: ", err)
+
                 html = Html()
                 html.url = url
                 html.landing_page = landing_page
                 html.html = content
-                html.vpn = vpn
                 html.create_time = get_now_timestamp()
                 session.add(html)
                 session.commit()

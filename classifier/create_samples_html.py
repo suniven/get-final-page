@@ -21,6 +21,7 @@ def extract_features(html, session, tag, url, landing_page):
         example.iframe_count = 0
         example.class_count = 0
         example.words_count = 0
+        example.js_count = 0
         example.tag = tag
 
         bs = BeautifulSoup(html, "lxml")
@@ -29,6 +30,8 @@ def extract_features(html, session, tag, url, landing_page):
         example.button_count = len(bs.find_all("button"))
         example.div_count = len(bs.find_all("div"))
         example.iframe_count = len(bs.find_all("iframe"))
+        example.js_count = len(bs.find_all("script"))
+
         example.words_count = len(re.sub(r"[\s\r\n\t]", "", bs.get_text()))
 
         classes = re.findall(r'class=\"[-_\s\w]+\"', str(html))
