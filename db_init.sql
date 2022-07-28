@@ -104,6 +104,15 @@ CREATE TABLE IF NOT EXISTS `example`
     `class_count`  int                       NOT NULL DEFAULT 0 COMMENT 'class种类',
     `words_count`  int                       NOT NULL DEFAULT 0 COMMENT '网页字符数',
     `js_count`     int                       NOT NULL DEFAULT 0 COMMENT 'js数量',
+    `link_count`   int                       NOT NULL DEFAULT 0 COMMENT 'link标签数量',
+    `a_http`       float                     NOT NULL DEFAULT 0 COMMENT 'a href 使用 http 比例',
+    `a_https`      float                     NOT NULL DEFAULT 0 COMMENT 'a href 使用 https 比例',
+    `link_http`    float                     NOT NULL DEFAULT 0 COMMENT 'link http',
+    `link_https`   float                     NOT NULL DEFAULT 0 COMMENT 'link https',
+    `a_diff`       float                     NOT NULL DEFAULT 0 COMMENT 'href链接与原URL域名不同的数量占比',
+    `link_diff`    float                     NOT NULL DEFAULT 0 COMMENT 'href链接与原URL域名不同的数量占比',
+    `a_hashtag`    float                     NOT NULL DEFAULT 0 COMMENT 'href=# or jsvoid0',
+    `link_hashtag` float                     NOT NULL DEFAULT 0 COMMENT '同上',
     `tag`          int                       NOT NULL DEFAULT 0 COMMENT '0-middle 1-final',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB

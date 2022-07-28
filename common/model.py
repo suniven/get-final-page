@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, Text
+from sqlalchemy import Column, String, Integer, Text, Float
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects import mysql
@@ -103,4 +103,13 @@ class Example(Base):
     class_count = Column(Integer)
     words_count = Column(Integer)
     js_count = Column(Integer)
+    link_count = Column(Integer)
+    a_http = Column(Float)
+    a_https = Column(Float)
+    link_http = Column(Float)
+    link_https = Column(Float)
+    a_diff = Column(Float)
+    link_diff = Column(Float)
+    a_hashtag = Column(Float)
+    link_hashtag = Column(Float)
     tag = Column(Integer)
