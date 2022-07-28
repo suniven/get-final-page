@@ -71,11 +71,11 @@ if __name__ == '__main__':
                 browser.get(landing_page)
                 content = browser.page_source
 
-                # 寻找iframe中的内容
-                try:
-                    content += get_iframe_content(browser)
-                except Exception as err:
-                    print("Iframe Error: ", err)
+                # # 寻找iframe中的内容
+                # try:
+                #     content += get_iframe_content(browser)
+                # except Exception as err:
+                #     print("Iframe Error: ", err)
 
                 html = Html()
                 html.url = url
